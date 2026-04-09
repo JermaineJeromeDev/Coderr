@@ -2,7 +2,7 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, ListAPIView
 from rest_framework.response import Response
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -53,3 +53,17 @@ class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+
+class BusinessProfileListView(ListAPIView):
+    serializer_class = UserProfileSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(type='business')
+    
+
+class CustomerProfileListView(ListAPIView):
+    serializer_class = UserProfileSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(type='customer')
