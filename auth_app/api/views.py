@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.contrib.auth import get_user_model
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
-from django.contrib.auth.models import User
 from .serializers import RegistrationSerializer
 
+
+User = get_user_model()
 
 class RegistrationView(CreateAPIView):
     queryset = User.objects.all()
