@@ -2,13 +2,13 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 
 # 3. Lokale Importe
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, UserProfileSerializer
 
 
 User = get_user_model()
@@ -46,3 +46,9 @@ class LoginView(APIView):
             "email": user.email,
             "user_id": user.id
         }
+
+
+class UserProfileView(RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
