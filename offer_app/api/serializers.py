@@ -6,20 +6,22 @@ from ..models import Offer, OfferDetail
 
 
 class OfferDetailDataSerializer(serializers.ModelSerializer):
-    """Vollständige Details für POST/Anzeige nach Erstellung."""
+    id = serializers.IntegerField(required=False) 
+
     class Meta:
         model = OfferDetail
-        fields = ["id", "title", "revisions", "delivery_time_in_days", "price", "features"]
+        fields = ["id", "title", "revisions", "delivery_time_in_days", "price", "features", "offer_type"]
 
 
 class OfferDetailShortSerializer(serializers.ModelSerializer):
-    """Kurzform (id, url) für die Liste (GET)."""
+    """Kurzform (id, url) für GET."""
     url = serializers.SerializerMethodField()
     class Meta:
         model = OfferDetail
         fields = ["id", "url"]
     def get_url(self, obj):
         return f"/offerdetails/{obj.id}/"
+
 
 class OfferSerializer(serializers.ModelSerializer):
     user_details = serializers.SerializerMethodField(read_only=True)
@@ -37,7 +39,7 @@ class OfferSerializer(serializers.ModelSerializer):
         extra_kwargs = {'user': {'read_only': True}}
 
     def validate_details(self, value):
-        if len(value) != 3:
+        if self.context['request'].method == 'POST' and len(value) != 3:
             raise serializers.ValidationError("An offer must have exactly 3 details.")
         return value
 
@@ -48,8 +50,25 @@ class OfferSerializer(serializers.ModelSerializer):
             OfferDetail.objects.create(offer=offer, **detail)
         return offer
 
+    def update(self, instance, validated_data):
+        details_data = validated_data.pop('details', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if details_data:
+            self._update_details(instance, details_data)
+        return instance
+
+    def _update_details(self, instance, details_data):
+        for detail_item in details_data:
+            offer_type = detail_item.get('offer_type')
+            detail_obj = instance.details.filter(offer_type=offer_type).first()
+            if detail_obj:
+                for attr, value in detail_item.items():
+                    setattr(detail_obj, attr, value)
+                detail_obj.save()
+
     def to_representation(self, instance):
-        """Spagat: GET liefert Kurzform, POST/Anzeige liefert Langform."""
         rep = super().to_representation(instance)
         if self.context['request'].method == 'GET':
             rep['details'] = OfferDetailShortSerializer(instance.details.all(), many=True).data

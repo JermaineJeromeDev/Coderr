@@ -1,14 +1,15 @@
 # 2. Drittanbieter
 from django.db.models import Min
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.exceptions import ValidationError, PermissionDenied
+from rest_framework.exceptions import ValidationError
 
 # 3. Lokale Importe
 from ..models import Offer
 from .serializers import OfferSerializer
+from auth_app.api.permissions import IsOwnerOrReadOnly
 
 
 class OfferPagination(PageNumberPagination):
@@ -58,10 +59,11 @@ class OfferListView(ListCreateAPIView):
         except (ValueError, TypeError):
             raise ValidationError("Invalid filter parameters.")
         return queryset
-    
 
-class OfferDetailView(RetrieveAPIView):
+
+class OfferDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = OfferSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     queryset = Offer.objects.annotate(
         min_price=Min('details__price'),
         min_delivery_time=Min('details__delivery_time_in_days')
