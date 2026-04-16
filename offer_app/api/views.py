@@ -1,6 +1,6 @@
 # 2. Drittanbieter
 from django.db.models import Min
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -58,3 +58,11 @@ class OfferListView(ListCreateAPIView):
         except (ValueError, TypeError):
             raise ValidationError("Invalid filter parameters.")
         return queryset
+    
+
+class OfferDetailView(RetrieveAPIView):
+    serializer_class = OfferSerializer
+    queryset = Offer.objects.annotate(
+        min_price=Min('details__price'),
+        min_delivery_time=Min('details__delivery_time_in_days')
+    )
