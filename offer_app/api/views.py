@@ -1,14 +1,14 @@
 # 2. Drittanbieter
 from django.db.models import Min
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
 
 # 3. Lokale Importe
-from ..models import Offer
-from .serializers import OfferSerializer
+from ..models import Offer, OfferDetail
+from .serializers import OfferSerializer, OfferDetailDataSerializer
 from auth_app.api.permissions import IsOwnerOrReadOnly
 
 
@@ -68,3 +68,8 @@ class OfferDetailView(RetrieveUpdateDestroyAPIView):
         min_price=Min('details__price'),
         min_delivery_time=Min('details__delivery_time_in_days')
     )
+
+
+class OfferDetailSingleView(RetrieveAPIView):
+    queryset = OfferDetail.objects.all()
+    serializer_class = OfferDetailDataSerializer
