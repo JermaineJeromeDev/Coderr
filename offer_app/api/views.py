@@ -23,9 +23,12 @@ class OfferListView(ListCreateAPIView):
     search_fields = ['title', 'description']
     ordering_fields = ['updated_at', 'min_price']
 
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        if request.method == 'POST' and request.user.type != 'business':
+            self.permission_denied(request, message="Only business users can create offers.")
+
     def perform_create(self, serializer):
-        if self.request.user.type != 'business':
-            raise PermissionDenied("Only business users can create offers.")
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
