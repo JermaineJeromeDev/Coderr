@@ -1,10 +1,13 @@
+# 2. Drittanbieter
 from rest_framework import serializers
-from django.db.models import Min
+
+# 3. Lokale Importe
 from ..models import Offer, OfferDetail
 
 
 class OfferDetailSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
+
 
     class Meta:
         model = OfferDetail
@@ -36,9 +39,7 @@ class OfferSerializer(serializers.ModelSerializer):
         }
 
     def get_min_price(self, obj):
-        min_val = obj.details.aggregate(Min('price'))['price__min']
-        return min_val if min_val is not None else 0
+        return getattr(obj, 'min_price', 0)
 
     def get_min_delivery_time(self, obj):
-        min_val = obj.details.aggregate(Min('delivery_time_in_days'))['delivery_time_in_days__min']
-        return min_val if min_val is not None else 0
+        return getattr(obj, 'min_delivery_time', 0)
