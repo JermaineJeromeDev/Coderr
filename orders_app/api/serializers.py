@@ -19,7 +19,7 @@ class OrderSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             "customer_user", "business_user", "title", "revisions", 
-            "delivery_time_in_days", "price", "features", "offer_type", "status"]
+            "delivery_time_in_days", "price", "features", "offer_type"]
 
     def create(self, validated_data):
         detail_id = validated_data.pop('offer_detail_id')
