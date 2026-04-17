@@ -1,9 +1,13 @@
 # 2. Drittanbieter
 from django.db.models import Q
 from django.db.models import Min
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.exceptions import PermissionDenied 
+from rest_framework.exceptions import PermissionDenied
+
+from auth_app.api.views import User 
 
 # 3. Lokale Importe
 from ..models import Order
@@ -41,3 +45,12 @@ class OrderDetailView(RetrieveUpdateDestroyAPIView):
         if self.request.user != serializer.instance.business_user:
             raise PermissionDenied("Only the business user can update the order status.")
         serializer.save()
+
+
+class OrderCountView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, business_user_id):
+        user = get_object_or_404(User, id=business_user_id, type='business')
+        count = Order.objects.filter(business_user=user, status='in_progress').count()
+        return Response({"order_count": count})
