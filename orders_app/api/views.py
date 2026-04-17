@@ -1,7 +1,9 @@
 # 2. Drittanbieter
 from django.db.models import Q
+from django.db.models import Min
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied 
 
 # 3. Lokale Importe
 from ..models import Order
@@ -17,5 +19,6 @@ class OrderListView(ListCreateAPIView):
         return Order.objects.filter(Q(customer_user=user) | Q(business_user=user))
 
     def perform_create(self, serializer):
+        if self.request.user.type != 'customer':
+            raise PermissionDenied("Only customers can create orders.")
         serializer.save()
-
