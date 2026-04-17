@@ -1,8 +1,8 @@
 # 2. Drittanbieter
 from django.db.models import Q
 from django.db.models import Min
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.exceptions import PermissionDenied 
 
 # 3. Lokale Importe
@@ -24,9 +24,14 @@ class OrderListView(ListCreateAPIView):
         serializer.save()
 
 
-class OrderDetailView(RetrieveUpdateAPIView):
+class OrderDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated] 
+    queryset = Order.objects.all()
+
+    def get_permissions(self):
+        if self.request.method == 'DELETE':
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
 
     def get_queryset(self):
         user = self.request.user
