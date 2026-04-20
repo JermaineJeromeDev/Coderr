@@ -47,18 +47,23 @@ class OrderDetailView(RetrieveUpdateDestroyAPIView):
         serializer.save()
 
 
-class OrderCountView(APIView):
+class OrderCountBaseView(APIView):
     permission_classes = [IsAuthenticated]
-    
-    def get(self, request, business_user_id):
-        user = get_object_or_404(User, id=business_user_id, type='business')
-        count = Order.objects.filter(business_user=user, status='in_progress').count()
-        return Response({"order_count": count})
+
+    def _get_count(self, user_id, status_val):
+        user = get_object_or_404(User, id=user_id, type='business')
+        return Order.objects.filter(business_user=user, status=status_val).count()
     
 
-class CompletedOrderCountView(APIView):
+class OrderCountView(OrderCountBaseView):
+
     def get(self, request, business_user_id):
-        user = get_object_or_404(User, id=business_user_id, type='business')
-        
-        count = Order.objects.filter(business_user=user, status='completed').count()
+        count = self._get_count(business_user_id, 'in_progress')
+        return Response({"order_count": count})
+
+
+class CompletedOrderCountView(OrderCountBaseView):
+    
+    def get(self, request, business_user_id):
+        count = self._get_count(business_user_id, 'completed')
         return Response({"completed_order_count": count})
