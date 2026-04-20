@@ -54,3 +54,11 @@ class OrderCountView(APIView):
         user = get_object_or_404(User, id=business_user_id, type='business')
         count = Order.objects.filter(business_user=user, status='in_progress').count()
         return Response({"order_count": count})
+    
+
+class CompletedOrderCountView(APIView):
+    def get(self, request, business_user_id):
+        user = get_object_or_404(User, id=business_user_id, type='business')
+        
+        count = Order.objects.filter(business_user=user, status='completed').count()
+        return Response({"completed_order_count": count})
