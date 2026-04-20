@@ -37,15 +37,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'corsheaders',
+    # 1. Django Core
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 2. Third-Party
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters', 
+
+    # 3. Local Apps
     'auth_app',
     'offer_app',
     'orders_app',
