@@ -1,27 +1,46 @@
-# 2. Drittanbieter
-from rest_framework import serializers
+"""
+Serializers for managing orders and mapping offer details to order instances.
+"""
+
+# 2. Drittanbieter (Third-party)
 from django.shortcuts import get_object_or_404
-from offer_app.models import OfferDetail
+from rest_framework import serializers
 
 # 3. Lokale Importe
+from offer_app.models import OfferDetail
 from ..models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    """
+    Handles order creation by extracting data from a specific OfferDetail.
+    """
+
     offer_detail_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Order
         fields = [
-            "id", "customer_user", "business_user", "title", "revisions", 
-            "delivery_time_in_days", "price", "features", "offer_type", 
+            "id", "customer_user", "business_user", "title", "revisions",
+            "delivery_time_in_days", "price", "features", "offer_type",
             "status", "created_at", "updated_at", "offer_detail_id"
         ]
         read_only_fields = [
-            "customer_user", "business_user", "title", "revisions", 
-            "delivery_time_in_days", "price", "features", "offer_type"]
+            "customer_user",
+            "business_user",
+            "title",
+            "revisions",
+            "delivery_time_in_days",
+            "price",
+            "features",
+            "offer_type"
+        ]
 
     def create(self, validated_data):
+        """
+        Creates an order using the current user and data from the 
+        linked OfferDetail.
+        """
         detail_id = validated_data.pop('offer_detail_id')
         detail = get_object_or_404(OfferDetail, id=detail_id)
 
