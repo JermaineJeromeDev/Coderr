@@ -4,7 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Review
 from .serializers import ReviewSerializer
 from rest_framework.exceptions import PermissionDenied, NotAuthenticated
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from auth_app.api.permissions import IsOwnerOrReadOnly
 
 
@@ -14,7 +14,7 @@ class ReviewListView(ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ['business_user', 'reviewer']
     ordering_fields = ['updated_at', 'rating']
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def check_permissions(self, request):
         super().check_permissions(request)
@@ -32,4 +32,4 @@ class ReviewListView(ListCreateAPIView):
 class ReviewDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
