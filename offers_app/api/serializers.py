@@ -155,12 +155,22 @@ class OfferSerializer(serializers.ModelSerializer):
         return getattr(obj, 'min_delivery_time', 0)
 
 
-
 class OfferCreationSerializer(OfferSerializer):
     """
-    Serializer for creating offers with a limited response structure.
-    Inherits all validation and creation logic from OfferSerializer.
+    Serializer for creating and updating offers with a limited response structure.
+    Inherits all validation, creation, and update logic from OfferSerializer.
     """
 
     class Meta(OfferSerializer.Meta):
         fields = ["id", "title", "image", "description", "details"]
+
+    def to_representation(self, instance):
+        """
+        Ensures that prices are returned as integers for the creation response.
+        """
+        rep = super().to_representation(instance)
+
+        for detail in rep.get('details', []):
+            if 'price' in detail:
+                detail['price'] = int(float(detail['price']))
+        return rep

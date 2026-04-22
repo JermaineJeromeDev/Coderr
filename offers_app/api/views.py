@@ -112,8 +112,15 @@ class OfferDetailView(RetrieveUpdateDestroyAPIView):
     """
     Handles retrieval, updates, and deletion of specific offers.
     """
-    serializer_class = OfferSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_serializer_class(self):
+        """
+        Returns OfferCreationSerializer for PATCH/PUT and OfferSerializer for GET.
+        """
+        if self.request.method in ['PATCH', 'PUT']:
+            return OfferCreationSerializer
+        return OfferSerializer
 
     def get_queryset(self):
         """
