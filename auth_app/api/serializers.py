@@ -15,20 +15,17 @@ class RegistrationSerializer(serializers.ModelSerializer):
     """
     Handles user registration with password validation and token generation.
     """
-
     repeated_password = serializers.CharField(write_only=True)
     token = serializers.SerializerMethodField()
     user_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = User
-        fields = [
-            "user_id", "username", "email", "password",
-            "repeated_password", "type", "token"
-        ]
+        fields = ["token", "username", "email", "user_id", "password", "repeated_password", "type"]
         extra_kwargs = {
             'password': {'write_only': True},
-            'email': {'required': True}
+            'email': {'required': True},
+            'type': {'write_only': True}  
         }
 
     def validate(self, data):
