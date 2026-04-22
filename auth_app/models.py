@@ -16,5 +16,8 @@ class CustomUser(AbstractUser):
     file = models.FileField(upload_to='profiles/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['id'] 
+        
     def __str__(self):
         return f"{self.username} ({self.type})"

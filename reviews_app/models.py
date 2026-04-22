@@ -16,6 +16,7 @@ class Review(models.Model):
 
     class Meta:
         unique_together = ('business_user', 'reviewer')
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"Review by {self.reviewer.username} for {self.business_user.username}"
