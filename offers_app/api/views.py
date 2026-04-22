@@ -16,7 +16,11 @@ from rest_framework.exceptions import ValidationError
 
 # 3. Lokale Importe
 from ..models import Offer, OfferDetail
-from .serializers import OfferSerializer, OfferDetailDataSerializer
+from .serializers import (
+    OfferSerializer, 
+    OfferDetailDataSerializer, 
+    OfferCreationSerializer
+)
 from auth_app.api.permissions import IsOwnerOrReadOnly
 
 
@@ -31,20 +35,26 @@ class OfferListView(ListCreateAPIView):
     """
     Provides a list of offers with filtering and ordering, or creates a new one.
     """
-    serializer_class = OfferSerializer
     pagination_class = OfferPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title', 'description']
     ordering_fields = ['updated_at', 'min_price']
 
+    def get_serializer_class(self):
+        """
+        Returns OfferCreationSerializer for POST and OfferSerializer for GET.
+        """
+        if self.request.method == 'POST':
+            return OfferCreationSerializer
+        return OfferSerializer
+
     def check_permissions(self, request):
         """
         Ensures only business users can post new offers.
         """
         super().check_permissions(request)
-        is_post = request.method == 'POST'
-        if is_post and request.user.type != 'business':
+        if request.method == 'POST' and request.user.type != 'business':
             self.permission_denied(
                 request,
                 message="Only business users can create offers."

@@ -15,6 +15,7 @@ class OfferDetailDataSerializer(serializers.ModelSerializer):
     """
 
     id = serializers.IntegerField(required=False)
+    price = serializers.IntegerField() 
 
     class Meta:
         model = OfferDetail
@@ -135,3 +136,13 @@ class OfferSerializer(serializers.ModelSerializer):
         Retrieves the annotated min_delivery_time from the view's queryset.
         """
         return getattr(obj, 'min_delivery_time', 0)
+
+
+class OfferCreationSerializer(OfferSerializer):
+    """
+    Serializer for creating offers with a limited response structure.
+    Inherits all validation and creation logic from OfferSerializer.
+    """
+
+    class Meta(OfferSerializer.Meta):
+        fields = ["id", "title", "image", "description", "details"]
