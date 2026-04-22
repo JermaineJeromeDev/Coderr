@@ -78,12 +78,13 @@ class BaseInfoView(APIView):
 
     def get(self, request):
         review_count = Review.objects.count()
-        avg_rating = Review.objects.aggregate(Avg('rating'))['rating__avg'] or 0
+        avg_result = Review.objects.aggregate(Avg('rating'))['rating__avg']
+        avg_rating = round(float(avg_result), 1) if avg_result else 0.0
         business_count = User.objects.filter(type='business').count()
         offer_count = Offer.objects.count()
         return Response({
             "review_count": review_count,
-            "average_rating": round(float(avg_rating), 1),
+            "average_rating": avg_rating,
             "business_profile_count": business_count,
             "offer_count": offer_count
         })
