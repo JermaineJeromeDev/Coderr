@@ -84,3 +84,20 @@ class UserProfilePublicSerializer(serializers.ModelSerializer):
             "location", "tel", "description", "working_hours", "type"
         ]
         read_only_fields = ["username", "type"]
+
+
+class CustomerProfileListSerializer(serializers.ModelSerializer):
+    """
+    Specific serializer for the customer profile list as per documentation.
+    Maps 'created_at' to 'uploaded_at' and restricts fields to the specified subset.
+    """
+    user = serializers.IntegerField(source='id', read_only=True)
+    uploaded_at = serializers.DateTimeField(source='created_at', read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            "user", "username", "first_name", "last_name", 
+            "file", "uploaded_at", "type"
+        ]
+        read_only_fields = ["username", "type", "uploaded_at"]

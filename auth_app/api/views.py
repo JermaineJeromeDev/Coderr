@@ -20,7 +20,7 @@ from rest_framework.views import APIView
 from offers_app.models import Offer
 from reviews_app.models import Review
 from .permissions import IsOwnerOrReadOnly
-from .serializers import RegistrationSerializer, UserProfileSerializer, UserProfilePublicSerializer
+from .serializers import CustomerProfileListSerializer, RegistrationSerializer, UserProfileSerializer, UserProfilePublicSerializer
 
 
 User = get_user_model()
@@ -99,7 +99,7 @@ class CustomerProfileListView(ListAPIView):
     """
     Returns a list of all users with customer accounts.
     """
-    serializer_class = UserProfilePublicSerializer
+    serializer_class = CustomerProfileListSerializer
     pagination_class = None
 
     def get_queryset(self):
