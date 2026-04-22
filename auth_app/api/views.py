@@ -4,6 +4,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, ListAPIView
 from rest_framework.response import Response
+from django.db.models import Avg
+
+from offer_app.models import Offer
+from reviews_app.models import Review
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
@@ -67,3 +71,19 @@ class CustomerProfileListView(ListAPIView):
 
     def get_queryset(self):
         return User.objects.filter(type='customer')
+    
+
+class BaseInfoView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        review_count = Review.objects.count()
+        avg_rating = Review.objects.aggregate(Avg('rating'))['rating__avg'] or 0
+        business_count = User.objects.filter(type='business').count()
+        offer_count = Offer.objects.count()
+        return Response({
+            "review_count": review_count,
+            "average_rating": round(float(avg_rating), 1),
+            "business_profile_count": business_count,
+            "offer_count": offer_count
+        })

@@ -14,10 +14,11 @@ class BaseInfoSuccessTests(APITestCase):
     
     def setUp(self):
         biz = User.objects.create_user(username="biz", type="business")
-        cust = User.objects.create_user(username="cust", type="customer")
+        cust1 = User.objects.create_user(username="cust1", type="customer")
+        cust2 = User.objects.create_user(username="cust2", type="customer")
         Offer.objects.create(user=biz, title="Offer 1")
-        Review.objects.create(business_user=biz, reviewer=cust, rating=4)
-        Review.objects.create(business_user=biz, reviewer=cust, rating=5)
+        Review.objects.create(business_user=biz, reviewer=cust1, rating=4)
+        Review.objects.create(business_user=biz, reviewer=cust2, rating=5)
         self.url = reverse('base-info')
 
     def test_should_return_correct_statistics_200(self):
