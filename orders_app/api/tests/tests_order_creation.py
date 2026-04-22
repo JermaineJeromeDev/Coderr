@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 # 3. Lokale Importe
-from offer_app.models import Offer, OfferDetail
+from offers_app.models import Offer, OfferDetail
 from orders_app.models import Order
 
 

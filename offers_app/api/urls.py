@@ -1,5 +1,5 @@
 """
-URL configuration for the offer_app API.
+URL configuration for the offers_app API.
 """
 
 # 1. Standard-Library / Django

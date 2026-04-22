@@ -1,5 +1,5 @@
 """
-Tests for listing and filtering offers in the offer_app.
+Tests for listing and filtering offers in the offers_app.
 """
 
 # 2. Drittanbieter (Third-Party)
@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 # 3. Lokale Importe
-from offer_app.models import Offer
+from offers_app.models import Offer
 
 
 User = get_user_model()

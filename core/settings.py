@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 
     # 3. Local Apps
     'auth_app',
-    'offer_app',
+    'offers_app',
     'orders_app',
     'reviews_app',
 ]

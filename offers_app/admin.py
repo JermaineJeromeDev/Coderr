@@ -1,5 +1,5 @@
 """
-Admin configuration for the offer_app.
+Admin configuration for the offers_app.
 """
 
 # 2. Drittanbieter (Third-party)
