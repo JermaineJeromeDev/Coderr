@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # 3. Lokale Importe
-from offer_app.models import Offer
+from offers_app.models import Offer
 from reviews_app.models import Review
 from .permissions import IsOwnerOrReadOnly
 from .serializers import RegistrationSerializer, UserProfileSerializer
