@@ -68,3 +68,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "type", "email", "created_at"
         ]
         read_only_fields = ["username", "type", "created_at"]
+
+
+class UserProfilePublicSerializer(serializers.ModelSerializer):
+    """
+    Serializer for profile lists. 
+    Excludes sensitive or unnecessary fields like email and created_at.
+    """
+    user = serializers.IntegerField(source='id', read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            "user", "username", "first_name", "last_name", "file",
+            "location", "tel", "description", "working_hours", "type"
+        ]
+        read_only_fields = ["username", "type"]
