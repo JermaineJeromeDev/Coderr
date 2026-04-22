@@ -1,10 +1,10 @@
 # Coderr Backend - Freelance Marketplace API
 
-Choose Language: [English](#english-version) | [Deutsch](#deutsch-version)
+Select Language: [🇬🇧 English](#-english) | [🇩🇪 Deutsch](#-deutsch)
 
 ---
 
-<h2 id="english-version">🇺🇸 English</h2>
+## 🇬🇧 English
 
 This is the RESTful Backend for the **Coderr** platform, a marketplace connecting business users with customers. It was developed using **Test Driven Development (TDD)** and strictly follows **DRF best practices**.
 
@@ -20,6 +20,42 @@ This is the RESTful Backend for the **Coderr** platform, a marketplace connectin
 | **Django Filters** | 25.2 | Advanced Query Filtering |
 | **Python Dotenv** | 1.2.2 | Environment Variable Management |
 
+### 🚀 API Endpoints Overview
+
+All endpoints (except registration/login) require: `Authorization: Token <your-token>`
+
+#### 🔑 Authentication & Profiles
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **POST** | `/api/registration/` | Register a new user account (Business/Customer). |
+| **POST** | `/api/login/` | Login and receive an authentication token. |
+| **GET** | `/api/profile/{id}/` | Retrieve detailed profile information. |
+| **PATCH** | `/api/profile/{id}/` | Update your own profile details. |
+| **GET** | `/api/profiles/business/` | List all available business profiles. |
+| **GET** | `/api/profiles/customer/` | List all available customer profiles. |
+
+#### 💼 Offers & Services
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **GET** | `/api/offers/` | List all offers with search and filtering. |
+| **POST** | `/api/offers/` | Create a new offer with 3 packages (Business only). |
+| **GET** | `/api/offers/{id}/` | Retrieve detailed offer information. |
+| **PATCH** | `/api/offers/{id}/` | Update an existing offer (Owner only). |
+| **DELETE** | `/api/offers/{id}/` | Delete an offer (Owner only). |
+
+#### 🛒 Orders & Reviews
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **GET** | `/api/orders/` | List all orders related to the current user. |
+| **POST** | `/api/orders/` | Create a new order (Customer only). |
+| **PATCH** | `/api/orders/{id}/` | Update order status (Business only). |
+| **DELETE** | `/api/orders/{id}/` | Administrative deletion (Staff only). |
+| **POST** | `/api/reviews/` | Leave a review for a business (Customer only). |
+| **GET** | `/api/base-info/` | Get platform-wide statistics (Public). |
+
 ### 🔐 Permission Matrix
 
 
@@ -31,75 +67,72 @@ This is the RESTful Backend for the **Coderr** platform, a marketplace connectin
 | **Editing** | `PATCH / DELETE` | **Owner** | Restricted via universal `IsOwnerOrReadOnly`. |
 | **Orders** | `DELETE /api/orders/` | **Staff** | Administrative deletion only. |
 
-### 🚀 Installation
-1. **Clone & Environment**:
+### 🛡 Security & Status Codes
+The API strictly follows the documented HTTP status code conventions:
+- **201 Created**: Resource successfully generated.
+- **204 No Content**: Resource successfully deleted.
+- **400 Bad Request**: Invalid input data or logic error (e.g., duplicate review).
+- **401 Unauthorized**: Authentication token missing or invalid.
+- **403 Forbidden**: User lacks permission for the specific resource.
+- **404 Not Found**: Target resource does not exist.
+
+### ⚙️ Installation & Setup
+1. **Clone & Navigate**:
    ```bash
-   git clone <your-repo-url>
+   git clone <your-repository-url>
    cd coderr-backend
-   cp .env.template .env # Fill in your SECRET_KEY
    ```
-2. **Dependencies**:
+2. **Environment Setup**:
    ```bash
    python -m venv .venv
-   source .venv/bin/activate # Windows: .venv\Scripts\activate
+   # Windows: .venv\Scripts\activate | Mac/Linux: source .venv/bin/activate
    pip install -r requirements.txt
    ```
-3. **Database**:
+3. **Environment Variables**:
+   ```bash
+   cp .env.template .env
+   # Generate secret key: 
+   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   ```
+4. **Database & Server**:
    ```bash
    python manage.py migrate
+   python manage.py createsuperuser
    python manage.py runserver
    ```
 
 ### 🧪 Testing & Quality
-We use `pytest` with a specific import mode for the modular app structure:
 - **Run all tests**: `pytest --import-mode=importlib`
 - **Run with coverage**: `pytest --import-mode=importlib --cov=.`
 
 ---
 
-<h2 id="deutsch-version">🇩🇪 Deutsch</h2>
+## 🇩🇪 Deutsch
 
-Dies ist das REST-Backend für die **Coderr**-Plattform. Die Entwicklung erfolgte nach dem **TDD-Prinzip** (Test Driven Development) unter Einhaltung strenger Clean-Code-Vorgaben.
+REST-Backend für die **Coderr**-Plattform. Marktplatz für Freelancer und Kunden. Entwickelt nach dem **TDD-Prinzip**.
 
 ### 🛠 Tech-Stack
-
 
 | Tool | Version | Zweck |
 | :--- | :--- | :--- |
 | **Django** | 6.0.4 | Web Framework |
 | **DRF** | 3.17.1 | REST API Toolkit |
-| **Pytest** | 9.0.3 | Testing Framework (TDD) |
-| **Coverage** | 7.13.5 | Qualitätssicherung (95%+) |
+| **Pytest** | 9.0.3 | Testing (TDD) |
+| **Coverage** | 7.13.5 | Qualitätssicherung |
 
-### 🔐 Berechtigungs-Matrix
+### 🛡 Sicherheit & Status-Codes
+Die API folgt strikt den HTTP-Statuscode-Konventionen:
+- **201 Created**: Ressource erfolgreich erstellt.
+- **204 No Content**: Ressource erfolgreich gelöscht.
+- **400 Bad Request**: Ungültige Daten oder Logikfehler (z.B. doppelte Review).
+- **401 Unauthorized**: Authentifizierungs-Token fehlt oder ist ungültig.
+- **403 Forbidden**: Fehlende Berechtigung für die Ressource.
+- **404 Not Found**: Ressource existiert nicht.
 
+### 🧪 Qualitätssicherung
+Die API verfügt über eine Testabdeckung von über 95%.
+- **Tests**: `pytest --import-mode=importlib`
+- **Abdeckung**: `pytest --import-mode=importlib --cov=.`
 
-| Feature | Endpoint | Anforderung | Logik |
-| :--- | :--- | :--- | :--- |
-| **Angebote** | `POST /api/offers/` | **Business** | Nur Business-User können Angebote erstellen. |
-| **Bestellungen** | `POST /api/orders/` | **Customer** | Nur Kunden können Services kaufen. |
-| **Reviews** | `POST /api/reviews/` | **Customer** | Nur Kunden; max. 1 Review pro Business. |
-| **Editieren** | `PATCH / DELETE` | **Owner** | Geschützt durch `IsOwnerOrReadOnly`. |
-
-### 🚀 Installation
-1. **Setup**:
-   ```bash
-   git clone <deine-repo-url>
-   cd coderr-backend
-   # .env erstellen und SECRET_KEY aus .env.template eintragen
-   ```
-2. **Umgebung**:
-   ```bash
-   python -m venv .venv
-   .venv\Scripts\activate # Windows
-   pip install -r requirements.txt
-   ```
-3. **Start**:
-   ```bash
-   python manage.py migrate
-   python manage.py runserver
-   ```
-
-### 🧪 Tests & Qualität
-- **Tests starten**: `pytest --import-mode=importlib`
-- **Coverage-Bericht**: `pytest --import-mode=importlib --cov=.`
+---
+*Note: Sensitive files like `db.sqlite3` and `.env` are excluded from version control to ensure security.*
