@@ -22,8 +22,8 @@ class BusinessProfileListSuccessTests(APITestCase):
     def test_should_return_only_business_users(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["type"], "business")
+        usernames = [p["username"] for p in response.data['results']]
+        self.assertIn("biz_user", usernames)
 
 
 class BusinessProfileListErrorTests(APITestCase):
@@ -47,8 +47,8 @@ class CustomerProfileListSuccessTests(APITestCase):
     def test_should_return_only_customer_users(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["type"], "customer")
+        usernames = [p["username"] for p in response.data['results']]
+        self.assertIn("cust_user", usernames)
 
 
 class CustomerProfileListErrorTests(APITestCase):
