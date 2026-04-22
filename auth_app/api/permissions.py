@@ -1,11 +1,11 @@
 from rest_framework import permissions
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Erlaubt GET für jeden Authentifizierten, 
-    aber PATCH/PUT nur für den Besitzer.
-    """
+    
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.id == request.user.id
+        owner_field = getattr(obj, 'user', 
+                    getattr(obj, 'reviewer', 
+                    getattr(obj, 'customer_user', None)))
+        return owner_field == request.user

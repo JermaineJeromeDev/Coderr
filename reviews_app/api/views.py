@@ -1,10 +1,11 @@
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Review
 from .serializers import ReviewSerializer
 from rest_framework.exceptions import PermissionDenied, NotAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from auth_app.api.permissions import IsOwnerOrReadOnly
 
 
 class ReviewListView(ListCreateAPIView):
@@ -26,3 +27,9 @@ class ReviewListView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(reviewer=self.request.user)
+
+
+class ReviewDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = [IsOwnerOrReadOnly]
