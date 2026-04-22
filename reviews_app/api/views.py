@@ -28,6 +28,7 @@ class ReviewListView(ListCreateAPIView):
     filterset_fields = ['business_user', 'reviewer']
     ordering_fields = ['updated_at', 'rating']
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def check_permissions(self, request):
         """
