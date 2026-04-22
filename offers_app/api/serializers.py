@@ -27,9 +27,8 @@ class OfferDetailDataSerializer(serializers.ModelSerializer):
 
 class OfferDetailShortSerializer(serializers.ModelSerializer):
     """
-    Minimal serializer for OfferDetail objects used in GET list representations.
+    Minimal serializer for OfferDetail objects used in GET representations.
     """
-
     url = serializers.SerializerMethodField()
 
     class Meta:
@@ -38,9 +37,13 @@ class OfferDetailShortSerializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         """
-        Returns the detail URL for a specific offer detail.
+        Builds the absolute URI for the offer detail package.
         """
-        return f"/offerdetails/{obj.id}/"
+        request = self.context.get('request')
+        path = f"/api/offerdetails/{obj.id}/"
+        if request:
+            return request.build_absolute_uri(path)
+        return path
 
 
 class OfferSerializer(serializers.ModelSerializer):
@@ -107,12 +110,26 @@ class OfferSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         """
-        Switches between short (GET) and full (POST/PATCH) detail representation.
+        Customizes the output for GET requests to match documentation exactly.
         """
         rep = super().to_representation(instance)
-        if self.context['request'].method == 'GET':
+        request = self.context.get('request')
+        view = self.context.get('view')
+
+        if request and request.method == 'GET':
             details_qs = instance.details.all()
-            rep['details'] = OfferDetailShortSerializer(details_qs, many=True).data
+            rep['details'] = OfferDetailShortSerializer(
+                details_qs,
+                many=True,
+                context={'request': request}
+            ).data
+
+            if rep.get('min_price') is not None:
+                rep['min_price'] = int(float(rep['min_price']))
+
+            if view and view.__class__.__name__ == 'OfferDetailView':
+                rep.pop('user_details', None)
+
         return rep
 
     def get_user_details(self, obj):
@@ -136,6 +153,7 @@ class OfferSerializer(serializers.ModelSerializer):
         Retrieves the annotated min_delivery_time from the view's queryset.
         """
         return getattr(obj, 'min_delivery_time', 0)
+
 
 
 class OfferCreationSerializer(OfferSerializer):
