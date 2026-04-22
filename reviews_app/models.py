@@ -14,5 +14,8 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        unique_together = ('business_user', 'reviewer')
+
     def __str__(self):
         return f"Review by {self.reviewer.username} for {self.business_user.username}"
