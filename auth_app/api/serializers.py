@@ -1,3 +1,8 @@
+"""
+Serializers for user registration and profile management.
+"""
+
+# 2. Drittanbieter (Third-party)
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -5,36 +10,57 @@ from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
+
 class RegistrationSerializer(serializers.ModelSerializer):
+    """
+    Handles user registration with password validation and token generation.
+    """
+
     repeated_password = serializers.CharField(write_only=True)
     token = serializers.SerializerMethodField()
     user_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = User
-        fields = ["user_id", "username", "email", "password", "repeated_password", "type", "token"]
+        fields = [
+            "user_id", "username", "email", "password",
+            "repeated_password", "type", "token"
+        ]
         extra_kwargs = {
             'password': {'write_only': True},
             'email': {'required': True}
         }
 
     def validate(self, data):
+        """
+        Verifies that both password fields match.
+        """
         if data['password'] != data['repeated_password']:
             raise serializers.ValidationError({"password": "Passwords must match."})
         return data
 
     def create(self, validated_data):
+        """
+        Creates a new user and an associated authentication token.
+        """
         validated_data.pop('repeated_password')
         user = User.objects.create_user(**validated_data)
         Token.objects.create(user=user)
         return user
 
     def get_token(self, obj):
+        """
+        Retrieves or creates a token for the registered user.
+        """
         token, _ = Token.objects.get_or_create(user=obj)
         return token.key
-    
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    """
+    Serializer for retrieving and updating user profile information.
+    """
+
     user = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
