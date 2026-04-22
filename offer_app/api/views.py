@@ -3,7 +3,7 @@ from django.db.models import Min
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
 
 # 3. Lokale Importe
@@ -63,7 +63,7 @@ class OfferListView(ListCreateAPIView):
 
 class OfferDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = OfferSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     queryset = Offer.objects.annotate(
         min_price=Min('details__price'),
         min_delivery_time=Min('details__delivery_time_in_days')
