@@ -15,7 +15,6 @@ class OrderSerializer(serializers.ModelSerializer):
     """
     Handles order creation by extracting data from a specific OfferDetail.
     """
-
     offer_detail_id = serializers.IntegerField(write_only=True)
 
     class Meta:
@@ -54,3 +53,12 @@ class OrderSerializer(serializers.ModelSerializer):
             features=detail.features,
             offer_type=detail.offer_type
         )
+
+    def to_representation(self, instance):
+        """
+        Ensures price is returned as an integer and removes offer_detail_id.
+        """
+        rep = super().to_representation(instance)
+        if 'price' in rep:
+            rep['price'] = int(float(rep['price']))
+        return rep
