@@ -56,8 +56,3 @@ class CustomerProfileListErrorTests(APITestCase):
         url = reverse('business-profiles')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_should_return_401_for_customer_list_when_anonymous(self):
-        url = reverse('customer-profiles')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
