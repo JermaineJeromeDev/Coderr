@@ -9,7 +9,7 @@ Select Language: [🇬🇧 English](#-english) | [🇩🇪 Deutsch](#-deutsch)
 This is the RESTful Backend for the **Coderr** platform, a marketplace connecting business users with customers. It was developed using **Test Driven Development (TDD)** and strictly follows **DRF best practices**.
 
 ### Table of Contents
-1. [Installation & Setup](#installation-setup)
+1. [Installation & Setup](#installation--setup)
 2. [Tech Stack](#-tech-stack)
 3. [API Endpoints](#-api-endpoints)
 4. [Permission Matrix](#-permission-matrix)
