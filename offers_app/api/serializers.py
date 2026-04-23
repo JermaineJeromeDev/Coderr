@@ -67,10 +67,18 @@ class OfferSerializer(serializers.ModelSerializer):
 
     def validate_details(self, value):
         """
-        Ensures that exactly 3 details are provided during offer creation.
+        Validates detail payloads for create and update operations.
         """
-        if self.context['request'].method == 'POST' and len(value) != 3:
+        request = self.context['request']
+        if request.method == 'POST' and len(value) != 3:
             raise serializers.ValidationError("An offer must have exactly 3 details.")
+
+        if request.method in ['PATCH', 'PUT'] and value:
+            for detail in value:
+                if 'offer_type' not in detail:
+                    raise serializers.ValidationError(
+                        "Each detail must include offer_type for update operations."
+                    )
         return value
 
     def create(self, validated_data):

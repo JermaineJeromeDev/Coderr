@@ -103,3 +103,24 @@ class OfferPatchErrorTests(APITestCase):
         self.client.force_authenticate(user=self.owner)
         response = self.client.patch(self.url, {"title": ""})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_should_return_400_when_offer_type_missing_in_detail_update(self):
+        """
+        Verifies that patching details without offer_type returns 400.
+        """
+        self.client.force_authenticate(user=self.owner)
+        response = self.client.patch(
+            self.url,
+            {
+                "details": [
+                    {
+                        "title": "Updated Detail",
+                        "revisions": 2,
+                        "delivery_time_in_days": 7,
+                        "price": 150
+                    }
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
