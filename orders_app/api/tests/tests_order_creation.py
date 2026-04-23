@@ -2,13 +2,11 @@
 Tests for creating orders based on offer details in the orders_app.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-# 3. Lokale Importe
 from offers_app.models import Offer, OfferDetail
 from orders_app.models import Order
 
@@ -51,9 +49,10 @@ class OrderCreationSuccessTests(APITestCase):
         Ensures a customer can successfully create an order from an offer detail.
         """
         response = self.client.post(self.url, {"offer_detail_id": self.detail.id})
+        
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Order.objects.count(), 1)
-        self.assertEqual(response.data["price"], "100.00")
+        self.assertEqual(response.data["price"], 100)
 
 
 class OrderCreationErrorTests(APITestCase):
@@ -77,6 +76,14 @@ class OrderCreationErrorTests(APITestCase):
         )
         self.url = reverse('order-list')
 
+    def test_should_return_400_when_id_missing(self):
+        """
+        Verifies that missing payload results in a 400 Bad Request.
+        """
+        self.client.force_authenticate(user=self.cust)
+        response = self.client.post(self.url, {})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_should_return_401_when_anonymous(self):
         """
         Verifies that unauthenticated users cannot create orders.
@@ -99,11 +106,3 @@ class OrderCreationErrorTests(APITestCase):
         self.client.force_authenticate(user=self.cust)
         response = self.client.post(self.url, {"offer_detail_id": 9999})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-    def test_should_return_400_when_id_missing(self):
-        """
-        Verifies that missing payload results in a 400 Bad Request.
-        """
-        self.client.force_authenticate(user=self.cust)
-        response = self.client.post(self.url, {})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

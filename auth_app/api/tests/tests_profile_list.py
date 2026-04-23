@@ -2,7 +2,6 @@
 Tests for listing business and customer profiles.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
@@ -22,10 +21,14 @@ class BusinessProfileListSuccessTests(APITestCase):
         Creates a business and a customer user for filtering tests.
         """
         self.business_user = User.objects.create_user(
-            username="biz_user", password="pass", type="business"
+            username="biz_user", 
+            password="pass", 
+            type="business"
         )
         User.objects.create_user(
-            username="cust_user", password="pass", type="customer"
+            username="cust_user", 
+            password="pass", 
+            type="customer"
         )
         self.client.force_authenticate(user=self.business_user)
         self.url = reverse('business-profiles')
@@ -33,14 +36,14 @@ class BusinessProfileListSuccessTests(APITestCase):
     def test_should_return_only_business_users(self):
         """
         Verifies that the endpoint returns business profiles 
-        and includes the expected user in the paginated results.
+        directly as a list and includes the expected user.
         """
         response = self.client.get(self.url)
+        usernames = [p["username"] for p in response.data]
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
-        # Check within paginated 'results'
-        usernames = [p["username"] for p in response.data['results']]
         self.assertIn("biz_user", usernames)
+        self.assertEqual(len(response.data), 1)
 
 
 class BusinessProfileListErrorTests(APITestCase):
@@ -67,10 +70,14 @@ class CustomerProfileListSuccessTests(APITestCase):
         Creates a customer and a business user for filtering tests.
         """
         self.customer = User.objects.create_user(
-            username="cust_user", password="pass", type="customer"
+            username="cust_user", 
+            password="pass", 
+            type="customer"
         )
         User.objects.create_user(
-            username="biz_user", password="pass", type="business"
+            username="biz_user", 
+            password="pass", 
+            type="business"
         )
         self.client.force_authenticate(user=self.customer)
         self.url = reverse('customer-profiles')
@@ -78,14 +85,14 @@ class CustomerProfileListSuccessTests(APITestCase):
     def test_should_return_only_customer_users(self):
         """
         Verifies that the endpoint returns customer profiles 
-        and includes the expected user in the paginated results.
+        directly as a list and includes the expected user.
         """
         response = self.client.get(self.url)
+        usernames = [p["username"] for p in response.data]
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
-        # Check within paginated 'results'
-        usernames = [p["username"] for p in response.data['results']]
         self.assertIn("cust_user", usernames)
+        self.assertEqual(len(response.data), 1)
 
 
 class CustomerProfileListErrorTests(APITestCase):
