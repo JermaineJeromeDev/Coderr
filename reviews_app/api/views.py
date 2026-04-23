@@ -32,26 +32,25 @@ class ReviewListView(ListCreateAPIView):
 
     def check_permissions(self, request):
         """
-        Validates user type and prevents duplicate reviews for the same business.
+        Validates user type for review creation.
         """
         super().check_permissions(request)
-        if request.method == 'POST':
-            if request.user.type != 'customer':
-                raise NotAuthenticated("Only customers can create reviews.")
-
-            biz_id = request.data.get('business_user')
-            exists = Review.objects.filter(
-                reviewer=request.user,
-                business_user_id=biz_id
-            ).exists()
-
-            if exists:
-                raise PermissionDenied("You can only leave one review per business.")
+        if request.method == 'POST' and request.user.type != 'customer':
+            raise NotAuthenticated("Only customers can create reviews.")
 
     def perform_create(self, serializer):
         """
-        Assigns the current authenticated user as the reviewer.
+        Prevent duplicate reviews and assign the current user as reviewer.
         """
+        biz_id = serializer.validated_data.get('business_user').id
+        exists = Review.objects.filter(
+            reviewer=self.request.user,
+            business_user_id=biz_id
+        ).exists()
+
+        if exists:
+            raise PermissionDenied("You can only leave one review per business.")
+
         serializer.save(reviewer=self.request.user)
 
 

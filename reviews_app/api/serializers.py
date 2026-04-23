@@ -14,6 +14,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     Serializer for Review model ensuring uniqueness and read-only field safety.
     """
 
+    description = serializers.CharField(required=True, allow_blank=False)
+
     class Meta:
         model = Review
         fields = [
@@ -24,17 +26,6 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """
-        Prevents users from submitting multiple reviews for the same business.
+        Perform any cross-field validation for review creation.
         """
-        reviewer = self.context['request'].user
-        business_user = data.get('business_user')
-
-        if Review.objects.filter(
-            reviewer=reviewer,
-            business_user=business_user
-        ).exists():
-            raise serializers.ValidationError(
-                "You have already reviewed this business."
-            )
-
         return data

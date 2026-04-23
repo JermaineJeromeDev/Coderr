@@ -77,6 +77,15 @@ class ReviewCreationErrorTests(APITestCase):
             rating=5
         )
         self.client.force_authenticate(user=self.cust)
-        data = {"business_user": self.biz.id, "rating": 1}
+        data = {"business_user": self.biz.id, "rating": 1, "description": "Too bad."}
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_should_return_400_when_description_is_missing(self):
+        """
+        Ensures missing description returns a bad request instead of forbidden.
+        """
+        self.client.force_authenticate(user=self.cust)
+        data = {"business_user": self.biz.id, "rating": 4}
+        response = self.client.post(self.url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
