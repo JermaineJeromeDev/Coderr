@@ -57,15 +57,15 @@ class ReviewCreationErrorTests(APITestCase):
         self.cust = User.objects.create_user(username="cust", type="customer")
         self.url = reverse('review-list')
 
-    def test_should_return_401_for_business_user_trying_to_review(self):
+    def test_should_return_403_for_business_user_trying_to_review(self):
         """
-        Verifies that business users are not authorized to create reviews.
+        Verifies that business users are forbidden from creating reviews.
         """
         biz2 = User.objects.create_user(username="biz2", type="business")
         self.client.force_authenticate(user=biz2)
         data = {"business_user": self.biz.id, "rating": 5}
         response = self.client.post(self.url, data)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_should_return_403_when_duplicate_review(self):
         """

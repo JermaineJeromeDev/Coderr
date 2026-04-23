@@ -4,7 +4,7 @@ API views for handling service reviews and detailed review management.
 
 # 2. Drittanbieter (Third-party)
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.exceptions import NotAuthenticated, PermissionDenied
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import (
     ListCreateAPIView,
@@ -36,7 +36,7 @@ class ReviewListView(ListCreateAPIView):
         """
         super().check_permissions(request)
         if request.method == 'POST' and request.user.type != 'customer':
-            raise NotAuthenticated("Only customers can create reviews.")
+            raise PermissionDenied("Only customers can create reviews.")
 
     def perform_create(self, serializer):
         """
