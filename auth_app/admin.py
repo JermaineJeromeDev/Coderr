@@ -2,11 +2,9 @@
 Admin configuration for the auth_app.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-# 3. Lokale Importe
 from .models import CustomUser
 
 

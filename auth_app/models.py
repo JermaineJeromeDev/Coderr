@@ -2,7 +2,6 @@
 Database models for the authentication app, including the CustomUser.
 """
 
-# 1. Standard-Library
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 

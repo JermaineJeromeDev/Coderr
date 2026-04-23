@@ -2,10 +2,8 @@
 Serializers for managing user reviews and ratings.
 """
 
-# 2. Drittanbieter (Third-party)
 from rest_framework import serializers
 
-# 3. Lokale Importe
 from ..models import Review
 
 

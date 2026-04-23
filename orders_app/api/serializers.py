@@ -2,11 +2,9 @@
 Serializers for managing orders and mapping offer details to order instances.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-# 3. Lokale Importe
 from offers_app.models import OfferDetail
 from ..models import Order
 

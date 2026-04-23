@@ -2,7 +2,6 @@
 Database models for managing service offers and their specific price packages.
 """
 
-# 1. Standard-Library / Django
 from django.db import models
 from django.contrib.auth import get_user_model
 

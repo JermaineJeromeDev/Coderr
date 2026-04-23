@@ -2,7 +2,6 @@
 API views for user registration, authentication, and profile management.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib.auth import get_user_model, authenticate
 from django.db.models import Avg
 from rest_framework import status
@@ -16,7 +15,6 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# 3. Lokale Importe
 from offers_app.models import Offer
 from reviews_app.models import Review
 from .permissions import IsOwnerOrReadOnly

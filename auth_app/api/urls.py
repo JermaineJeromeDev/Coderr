@@ -2,10 +2,8 @@
 URL configuration for the authentication and profile API.
 """
 
-# 1. Standard-Library
 from django.urls import path
 
-# 3. Lokale Importe
 from .views import (
     BaseInfoView,
     RegistrationView,

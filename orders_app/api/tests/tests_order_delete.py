@@ -2,13 +2,11 @@
 Tests for deleting orders in the orders_app.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-# 3. Lokale Importe
 from orders_app.models import Order
 
 

@@ -2,10 +2,8 @@
 Admin configuration for the offers_app.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib import admin
 
-# 3. Lokale Importe
 from .models import Offer, OfferDetail
 
 

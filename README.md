@@ -8,8 +8,45 @@ Select Language: [🇬🇧 English](#-english) | [🇩🇪 Deutsch](#-deutsch)
 
 This is the RESTful Backend for the **Coderr** platform, a marketplace connecting business users with customers. It was developed using **Test Driven Development (TDD)** and strictly follows **DRF best practices**.
 
-### 🛠 Tech Stack
+### Table of Contents
+1. [Installation & Setup](#installation-setup)
+2. [Tech Stack](#-tech-stack)
+3. [API Endpoints](#-api-endpoints)
+4. [Permission Matrix](#-permission-matrix)
+5. [Security & Status Codes](#-security--status-codes)
+6. [Testing & Quality](#-testing--quality)
 
+---
+
+
+### ⚙️ Installation & Setup
+1. **Clone & Navigate**:
+   ```bash
+   git clone <your-repository-url>
+   cd coderr-backend
+   ```
+2. **Environment Setup**:
+   ```bash
+   python -m venv .venv
+   # Windows: .venv\Scripts\activate | Mac/Linux: source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+3. **Environment Variables**:
+   ```bash
+   cp .env.template .env
+   # Generate secret key: 
+   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   ```
+4. **Database & Server**:
+   ```bash
+   python manage.py migrate
+   python manage.py createsuperuser
+   python manage.py runserver
+   ```
+
+---
+
+### 🛠 Tech Stack
 
 | Tool | Version | Purpose |
 | :--- | :--- | :--- |
@@ -20,8 +57,9 @@ This is the RESTful Backend for the **Coderr** platform, a marketplace connectin
 | **Django Filters** | 25.2 | Advanced Query Filtering |
 | **Python Dotenv** | 1.2.2 | Environment Variable Management |
 
-### 🚀 API Endpoints Overview
+---
 
+### 🚀 API Endpoints
 All endpoints (except registration/login) require: `Authorization: Token <your-token>`
 
 #### 🔑 Authentication & Profiles
@@ -56,8 +94,9 @@ All endpoints (except registration/login) require: `Authorization: Token <your-t
 | **POST** | `/api/reviews/` | Leave a review for a business (Customer only). |
 | **GET** | `/api/base-info/` | Get platform-wide statistics (Public). |
 
-### 🔐 Permission Matrix
+---
 
+### 🔐 Permission Matrix
 
 | Feature | Endpoint | Requirement | Logic |
 | :--- | :--- | :--- | :--- |
@@ -67,6 +106,7 @@ All endpoints (except registration/login) require: `Authorization: Token <your-t
 | **Editing** | `PATCH / DELETE` | **Owner** | Restricted via universal `IsOwnerOrReadOnly`. |
 | **Orders** | `DELETE /api/orders/` | **Staff** | Administrative deletion only. |
 
+---
 ### 🛡 Security & Status Codes
 The API strictly follows the documented HTTP status code conventions:
 - **201 Created**: Resource successfully generated.
@@ -76,30 +116,7 @@ The API strictly follows the documented HTTP status code conventions:
 - **403 Forbidden**: User lacks permission for the specific resource.
 - **404 Not Found**: Target resource does not exist.
 
-### ⚙️ Installation & Setup
-1. **Clone & Navigate**:
-   ```bash
-   git clone <your-repository-url>
-   cd coderr-backend
-   ```
-2. **Environment Setup**:
-   ```bash
-   python -m venv .venv
-   # Windows: .venv\Scripts\activate | Mac/Linux: source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
-3. **Environment Variables**:
-   ```bash
-   cp .env.template .env
-   # Generate secret key: 
-   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-   ```
-4. **Database & Server**:
-   ```bash
-   python manage.py migrate
-   python manage.py createsuperuser
-   python manage.py runserver
-   ```
+---
 
 ### 🧪 Testing & Quality
 - **Run all tests**: `pytest --import-mode=importlib`
@@ -111,6 +128,34 @@ The API strictly follows the documented HTTP status code conventions:
 
 REST-Backend für die **Coderr**-Plattform. Marktplatz für Freelancer und Kunden. Entwickelt nach dem **TDD-Prinzip**.
 
+### Inhaltsverzeichnis
+1. [Installation & Setup](#-installation--setup)
+2. [Tech-Stack](#-tech-stack)
+3. [Sicherheit & Status-Codes](#-sicherheit--status-codes)
+4. [Qualitätssicherung](#-qualitätssicherung)
+
+---
+
+### 🚀 Installation & Setup
+1. **Repository klonen**:
+   ```bash
+   git clone <deine-repo-url>
+   cd coderr-backend
+   ```
+2. **Umgebung einrichten**:
+   ```bash
+   python -m venv .venv
+   .venv\Scripts\activate # Windows
+   pip install -r requirements.txt
+   ```
+3. **Datenbank & Server**:
+   ```bash
+   python manage.py migrate
+   python manage.py runserver
+   ```
+
+---
+
 ### 🛠 Tech-Stack
 
 | Tool | Version | Zweck |
@@ -120,17 +165,20 @@ REST-Backend für die **Coderr**-Plattform. Marktplatz für Freelancer und Kunde
 | **Pytest** | 9.0.3 | Testing (TDD) |
 | **Coverage** | 7.13.5 | Qualitätssicherung |
 
+---
+
 ### 🛡 Sicherheit & Status-Codes
 Die API folgt strikt den HTTP-Statuscode-Konventionen:
 - **201 Created**: Ressource erfolgreich erstellt.
 - **204 No Content**: Ressource erfolgreich gelöscht.
-- **400 Bad Request**: Ungültige Daten oder Logikfehler (z.B. doppelte Review).
-- **401 Unauthorized**: Authentifizierungs-Token fehlt oder ist ungültig.
-- **403 Forbidden**: Fehlende Berechtigung für die Ressource.
+- **400 Bad Request**: Ungültige Daten oder Logikfehler.
+- **401 Unauthorized**: Token fehlt oder ist ungültig.
+- **403 Forbidden**: Fehlende Berechtigung.
 - **404 Not Found**: Ressource existiert nicht.
 
+---
+
 ### 🧪 Qualitätssicherung
-Die API verfügt über eine Testabdeckung von über 95%.
 - **Tests**: `pytest --import-mode=importlib`
 - **Abdeckung**: `pytest --import-mode=importlib --cov=.`
 

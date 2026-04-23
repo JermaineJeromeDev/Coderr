@@ -2,7 +2,6 @@
 API views for handling orders, status updates, and order statistics.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 from rest_framework import status
@@ -16,7 +15,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.exceptions import PermissionDenied
 
-# 3. Lokale Importe
 from ..models import Order
 from .serializers import OrderSerializer
 

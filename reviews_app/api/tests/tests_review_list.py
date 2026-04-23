@@ -2,7 +2,6 @@
 Tests for listing reviews in the reviews_app.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status

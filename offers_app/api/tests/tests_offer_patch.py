@@ -2,13 +2,11 @@
 Tests for updating offers (PATCH) in the offers_app.
 """
 
-# 2. Drittanbieter (Third-Party)
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-# 3. Lokale Importe
 from offers_app.models import Offer, OfferDetail
 
 

@@ -2,10 +2,8 @@
 URL configuration for the orders_app API.
 """
 
-# 1. Standard-Library / Django
 from django.urls import path
 
-# 3. Lokale Importe
 from .views import (
     CompletedOrderCountView,
     OrderCountView,

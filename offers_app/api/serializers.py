@@ -2,10 +2,8 @@
 Serializers for offer management including detailed and short representations.
 """
 
-# 2. Drittanbieter (Third-party)
 from rest_framework import serializers
 
-# 3. Lokale Importe
 from ..models import Offer, OfferDetail
 
 

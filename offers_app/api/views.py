@@ -2,7 +2,6 @@
 Views for handling offer listings, creation, and detailed package information.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.db.models import Min
 from rest_framework.generics import (
     ListCreateAPIView,
@@ -14,7 +13,6 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
 
-# 3. Lokale Importe
 from ..models import Offer, OfferDetail
 from .serializers import (
     OfferSerializer, 

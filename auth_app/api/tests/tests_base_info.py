@@ -2,13 +2,11 @@
 Tests for the BaseInfo aggregate endpoint.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
 
-# 3. Lokale Importe
 from offers_app.models import Offer
 from reviews_app.models import Review
 

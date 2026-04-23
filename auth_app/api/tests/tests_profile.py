@@ -2,7 +2,6 @@
 Tests for profile retrieval and update functionality.
 """
 
-# 2. Drittanbieter (Third-party)
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status

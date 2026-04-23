@@ -2,7 +2,6 @@
 Central permission logic for the Coderr platform.
 """
 
-# 2. Drittanbieter (Third-party)
 from rest_framework import permissions
 from django.contrib.auth import get_user_model
 
