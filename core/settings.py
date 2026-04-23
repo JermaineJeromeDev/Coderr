@@ -163,4 +163,3 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 6,
     'COERCE_DECIMAL_TO_STRING': False,
 }
-

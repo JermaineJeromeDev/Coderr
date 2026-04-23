@@ -19,7 +19,6 @@ Including another URLconf
 Main URL configuration for the Coderr project.
 """
 
-# 1. Standard-Library / Django
 from django.contrib import admin
 from django.urls import path, include
 
