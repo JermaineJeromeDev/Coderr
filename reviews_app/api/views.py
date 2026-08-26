@@ -2,16 +2,14 @@
 API views for handling service reviews and detailed review management.
 """
 
+from auth_app.api.permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView
-)
+from rest_framework.generics import (ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
 from rest_framework.permissions import IsAuthenticated
 
-from auth_app.api.permissions import IsOwnerOrReadOnly
 from ..models import Review
 from .serializers import ReviewSerializer
 

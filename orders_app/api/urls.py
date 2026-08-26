@@ -4,13 +4,8 @@ URL configuration for the orders_app API.
 
 from django.urls import path
 
-from .views import (
-    CompletedOrderCountView,
-    OrderCountView,
-    OrderDetailView,
-    OrderListView
-)
-
+from .views import (CompletedOrderCountView, OrderCountView, OrderDetailView,
+                    OrderListView)
 
 urlpatterns = [
     path(

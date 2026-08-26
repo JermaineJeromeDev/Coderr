@@ -4,11 +4,9 @@ Tests for updating offers (PATCH) in the offers_app.
 
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from offers_app.models import Offer, OfferDetail
 from rest_framework import status
 from rest_framework.test import APITestCase
-
-from offers_app.models import Offer, OfferDetail
-
 
 User = get_user_model()
 

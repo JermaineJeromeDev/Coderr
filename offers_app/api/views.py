@@ -2,24 +2,19 @@
 Views for handling offer listings, creation, and detailed package information.
 """
 
+from auth_app.api.permissions import IsOwnerOrReadOnly
 from django.db.models import Min
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-    RetrieveAPIView
-)
-from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.generics import (ListCreateAPIView, RetrieveAPIView,
+                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import (IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 
 from ..models import Offer, OfferDetail
-from .serializers import (
-    OfferSerializer, 
-    OfferDetailDataSerializer, 
-    OfferCreationSerializer
-)
-from auth_app.api.permissions import IsOwnerOrReadOnly
+from .serializers import (OfferCreationSerializer, OfferDetailDataSerializer,
+                          OfferSerializer)
 
 
 class OfferPagination(PageNumberPagination):

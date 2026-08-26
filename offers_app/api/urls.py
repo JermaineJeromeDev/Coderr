@@ -4,12 +4,7 @@ URL configuration for the offers_app API.
 
 from django.urls import path
 
-from .views import (
-    OfferDetailSingleView,
-    OfferDetailView,
-    OfferListView
-)
-
+from .views import OfferDetailSingleView, OfferDetailView, OfferListView
 
 urlpatterns = [
     path(

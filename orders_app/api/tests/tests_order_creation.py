@@ -4,12 +4,10 @@ Tests for creating orders based on offer details in the orders_app.
 
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
-
 from offers_app.models import Offer, OfferDetail
 from orders_app.models import Order
-
+from rest_framework import status
+from rest_framework.test import APITestCase
 
 User = get_user_model()
 

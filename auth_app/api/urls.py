@@ -4,15 +4,9 @@ URL configuration for the authentication and profile API.
 
 from django.urls import path
 
-from .views import (
-    BaseInfoView,
-    RegistrationView,
-    LoginView,
-    UserProfileView,
-    BusinessProfileListView,
-    CustomerProfileListView
-)
-
+from .views import (BaseInfoView, BusinessProfileListView,
+                    CustomerProfileListView, LoginView, RegistrationView,
+                    UserProfileView)
 
 urlpatterns = [
     path(

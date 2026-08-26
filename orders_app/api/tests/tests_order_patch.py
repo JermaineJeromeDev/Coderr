@@ -4,11 +4,9 @@ Tests for updating order status (PATCH) in the orders_app.
 
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from orders_app.models import Order
 from rest_framework import status
 from rest_framework.test import APITestCase
-
-from orders_app.models import Order
-
 
 User = get_user_model()
 

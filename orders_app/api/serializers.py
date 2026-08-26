@@ -3,9 +3,9 @@ Serializers for managing orders and mapping offer details to order instances.
 """
 
 from django.shortcuts import get_object_or_404
+from offers_app.models import OfferDetail
 from rest_framework import serializers
 
-from offers_app.models import OfferDetail
 from ..models import Order
 
 

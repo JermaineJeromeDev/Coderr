@@ -2,14 +2,12 @@
 Tests for the BaseInfo aggregate endpoint.
 """
 
+from django.contrib.auth import get_user_model
 from django.urls import reverse
+from offers_app.models import Offer
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.contrib.auth import get_user_model
-
-from offers_app.models import Offer
 from reviews_app.models import Review
-
 
 User = get_user_model()
 
