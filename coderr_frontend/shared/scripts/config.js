@@ -13,9 +13,13 @@ const isLocalhost =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
 
-const API_BASE_URL = isLocalhost ? "http://127.0.0.1:8000/api/" : "/api/";
+const API_BASE_URL = isLocalhost
+  ? "http://127.0.0.1:8000/api/"
+  : "https://coderr-yq2l.onrender.com/api/";
 
-const STATIC_BASE_URL = isLocalhost ? "http://127.0.0.1:8000/" : "/";
+const STATIC_BASE_URL = isLocalhost
+  ? "http://127.0.0.1:8000/"
+  : "https://coderr-yq2l.onrender.com/";
 
 const LOGIN_URL = "login/";
 
