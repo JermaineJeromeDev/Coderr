@@ -13,7 +13,3 @@ services:
         value: coderr-v4g3.onrender.com
       - key: CORS_ALLOWED_ORIGINS
         value: https://coderr-frontend.onrender.com
-
-  - type: static
-    name: coderr-frontend
-    staticPublishPath: ./coderr_frontend

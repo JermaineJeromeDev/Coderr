@@ -24,15 +24,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from core.views import health_check
+from core.views import frontend_file, health_check
 
 urlpatterns = [
-    path("", health_check, name="health-check"),
     path("admin/", admin.site.urls),
     path("api/", include("auth_app.api.urls")),
     path("api/", include("offers_app.api.urls")),
     path("api/", include("orders_app.api.urls")),
     path("api/", include("reviews_app.api.urls")),
+    path("health/", health_check, name="health-check"),
+    path("", frontend_file, name="frontend-index"),
+    path("<path:path>", frontend_file, name="frontend-file"),
 ]
 
 if settings.DEBUG:
