@@ -15,14 +15,10 @@ class Review(models.Model):
     """
 
     business_user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="reviews_received"
+        User, on_delete=models.CASCADE, related_name="reviews_received"
     )
     reviewer = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="reviews_given"
+        User, on_delete=models.CASCADE, related_name="reviews_given"
     )
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
@@ -35,11 +31,14 @@ class Review(models.Model):
         """
         Metadata for the Review model.
         """
-        unique_together = ('business_user', 'reviewer')
-        ordering = ['-created_at']
+
+        unique_together = ("business_user", "reviewer")
+        ordering = ["-created_at"]
 
     def __str__(self):
         """
         Returns a string representation of the review instance.
         """
-        return f"Review by {self.reviewer.username} for {self.business_user.username}"
+        reviewer_username = getattr(self.reviewer, "username", "")
+        business_username = getattr(self.business_user, "username", "")
+        return f"Review by {reviewer_username} for {business_username}"
