@@ -15,11 +15,11 @@ const isLocalhost =
 
 export const API_BASE_URL = isLocalhost
   ? "http://127.0.0.1:8000/api/"
-  : "https://onrender.com";
+  : "https://coderr-v4g3.onrender.com/api/";
 
 export const STATIC_BASE_URL = isLocalhost
   ? "http://127.0.0.1:8000/"
-  : "https://onrender.com";
+  : "https://coderr-v4g3.onrender.com/";
 
 const LOGIN_URL = "login/";
 
