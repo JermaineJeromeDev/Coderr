@@ -23,6 +23,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.static import serve
 
 from core.views import frontend_file, health_check
 
@@ -33,6 +34,7 @@ urlpatterns = [
     path("api/", include("orders_app.api.urls")),
     path("api/", include("reviews_app.api.urls")),
     path("health/", health_check, name="health-check"),
+    path("media/<path:path>", serve, {"document_root": settings.MEDIA_ROOT}),
     path("", frontend_file, name="frontend-index"),
     path("<path:path>", frontend_file, name="frontend-file"),
 ]
