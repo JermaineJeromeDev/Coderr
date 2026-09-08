@@ -15,7 +15,7 @@ const isLocalhost =
 
 export const API_BASE_URL = isLocalhost
   ? "http://127.0.0.1:8000/api/"
-  : "https://onrender.com"; //
+  : "https://onrender.com";
 
 export const STATIC_BASE_URL = isLocalhost
   ? "http://127.0.0.1:8000/"
