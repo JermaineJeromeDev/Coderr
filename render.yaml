@@ -12,4 +12,4 @@ services:
       - key: ALLOWED_HOSTS
         value: coderr-v4g3.onrender.com
       - key: CORS_ALLOWED_ORIGINS
-        value: https://coderr-frontend.onrender.com
+        value: https://coderr-v4g3.onrender.com,https://coderr-frontend.onrender.com
