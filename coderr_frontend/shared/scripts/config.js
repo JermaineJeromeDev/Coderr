@@ -1,39 +1,47 @@
 const GUEST_LOGINS = {
-    customer : {
-        username: 'andrey',
-        password: 'asdasd'
-    },
-    business : {
-        username: 'kevin',
-        password: 'asdasd24'
-    }
-}
+  customer: {
+    username: "andrey",
+    password: "asdasd",
+  },
+  business: {
+    username: "kevin",
+    password: "asdasd24",
+  },
+};
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api/';
-const STATIC_BASE_URL = 'http://127.0.0.1:8000/';
+const isLocalhost =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
 
+export const API_BASE_URL = isLocalhost
+  ? "http://127.0.0.1:8000/api/"
+  : "https://onrender.com"; //
 
-const LOGIN_URL = 'login/';
+export const STATIC_BASE_URL = isLocalhost
+  ? "http://127.0.0.1:8000/"
+  : "https://onrender.com";
 
-const REGISTER_URL = 'registration/';
+const LOGIN_URL = "login/";
 
-const PROFILE_URL = 'profile/';
+const REGISTER_URL = "registration/";
 
-const BUSINESS_PROFILES_URL = 'profiles/business/';
+const PROFILE_URL = "profile/";
 
-const CUSTOMER_PROFILES_URL = 'profiles/customer/';
+const BUSINESS_PROFILES_URL = "profiles/business/";
 
-const REVIEW_URL = 'reviews/';
+const CUSTOMER_PROFILES_URL = "profiles/customer/";
 
-const ORDER_URL = 'orders/';
+const REVIEW_URL = "reviews/";
 
-const OFFER_URL = 'offers/';
+const ORDER_URL = "orders/";
 
-const OFFER_DETAIL_URL = 'offerdetails/';
+const OFFER_URL = "offers/";
 
-const BASE_INFO_URL = 'base-info/';
+const OFFER_DETAIL_URL = "offerdetails/";
 
-const OFFER_INPROGRESS_COUNT_URL = 'order-count/';
-const OFFER_COMPLETED_COUNT_URL = 'completed-order-count/';
+const BASE_INFO_URL = "base-info/";
 
-const PAGE_SIZE = 6
+const OFFER_INPROGRESS_COUNT_URL = "order-count/";
+const OFFER_COMPLETED_COUNT_URL = "completed-order-count/";
+
+const PAGE_SIZE = 6;
