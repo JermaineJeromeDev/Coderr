@@ -26,7 +26,7 @@ DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
-        "ALLOWED_HOSTS", "127.0.0.1,localhost,coderr-v4g3.onrender.com"
+        "ALLOWED_HOSTS", "coderr-production-4519.up.railway.app,localhost,127.0.0.1"
     ).split(",")
     if host.strip()
 ]
