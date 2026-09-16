@@ -26,7 +26,8 @@ DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
-        "ALLOWED_HOSTS", "coderr-production-4519.up.railway.app,localhost,127.0.0.1"
+        "ALLOWED_HOSTS",
+        "coderr.jermaine-jerome-baerwolf.de,680hpd48.up.railway.app,localhost,127.0.0.1",
     ).split(",")
     if host.strip()
 ]
@@ -70,7 +71,7 @@ CORS_ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
         "CORS_ALLOWED_ORIGINS",
-        "http://127.0.0.1:5500,http://localhost:5500,https://coderr-v4g3.onrender.com,https://coderr-frontend.onrender.com",
+        "http://127.0.0.1:5500,http://localhost:5500,https://coderr.jermaine-jerome-baerwolf.de",
     ).split(",")
     if origin.strip()
 ]
@@ -78,8 +79,7 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
-    "https://coderr-v4g3.onrender.com",
-    "https://coderr-frontend.onrender.com",
+    "https://coderr.jermaine-jerome-baerwolf.de",
 ]
 
 TEMPLATES = [
@@ -127,7 +127,14 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
