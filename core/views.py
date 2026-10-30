@@ -31,3 +31,10 @@ def health_check(request):
             "api": "/api/",
         }
     )
+
+
+def robots_txt(request):
+    return FileResponse(
+        (settings.BASE_DIR / "robots.txt").open("rb"),
+        content_type="text/plain",
+    )

@@ -24,10 +24,11 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.static import serve
 
-from core.views import frontend_file, health_check
+from core.views import frontend_file, health_check, robots_txt
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("robots.txt", robots_txt, name="robots-txt"),
     path("api/", include("auth_app.api.urls")),
     path("api/", include("offers_app.api.urls")),
     path("api/", include("orders_app.api.urls")),
